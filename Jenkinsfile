@@ -8,9 +8,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'echo "Build steps go here..."'
+                bat 'echo "Build steps go here..."'
                 // Build the Docker image
-                sh 'docker build -t topjay/node-app:latest .'
+                bat 'docker build -t topjay/node-app:latest .'
                 
                 }
         }
