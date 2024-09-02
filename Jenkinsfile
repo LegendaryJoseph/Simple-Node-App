@@ -17,9 +17,7 @@ pipeline {
         stage('Login') {
             steps {
                 powershell '''              
-                withCredentials([usernamePassword(credentialsId: 'topjay-dockerhub', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                    powershell '''
-                        $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+                echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
                 '''
                 }
         }
