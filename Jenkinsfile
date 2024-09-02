@@ -1,9 +1,5 @@
 pipeline {
     agent any
-
-    environment {
-                DOCKERHUB_CREDENTIALS = credentials('topjay-dockerhub')
-                }
     
     stages {
         stage('Build') {
@@ -16,10 +12,12 @@ pipeline {
         }
         stage('Login') {
             steps {
-                powershell '''              
-                echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                powershell '''
+                docker login -u "$env:DOCKERHUB_USERNAME" -p "$env:DOCKERHUB_PASSWORD"
                 '''
                 }
+            }
         }
         stage('Push') {
             steps {
